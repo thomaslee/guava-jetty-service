@@ -4,17 +4,19 @@
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'nexus'
+apply plugin: 'release'
 
 group = 'co.tomlee.guava.services'
-version = '0.0.1-SNAPSHOT'
 
 buildscript {
   repositories {
+    mavenCentral()
     jcenter()
   }
 
   dependencies {
     classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7.1'
+    classpath 'co.tomlee.gradle.plugins:gradle-release-plugin:0.0.4'
   }
 }
 
@@ -65,6 +67,12 @@ modifyPom {
     description 'A Guava Jetty Service'
     url 'https://github.com/thomaslee/guava-jetty-service'
     inceptionYear '2014'
+
+    scm {
+      url 'https://github.com/thomaslee/gradle-jetty-plugin'
+      connection 'scm:git://github.com/thomaslee/gradle-jetty-plugin.git'
+      developerConnection 'scm:git@github.com:thomaslee/gradle-jetty-plugin.git'
+    }
 
     licenses {
       license {
