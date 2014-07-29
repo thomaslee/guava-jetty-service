@@ -26,6 +26,10 @@ repositories {
 
 configurations {
   provided
+
+  compile {
+    extendsFrom provided
+  }
 }
 
 dependencies {
