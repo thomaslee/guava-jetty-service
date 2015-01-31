@@ -1,6 +1,5 @@
 // vim: ft=groovy:sw=2:ts=2:expandtab
 
-// Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'nexus'
@@ -16,7 +15,7 @@ buildscript {
 
   dependencies {
     classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7.1'
-    classpath 'co.tomlee.gradle.plugins:gradle-release-plugin:0.0.4'
+    classpath 'co.tomlee.gradle.plugins:gradle-release-plugin:0.0.6'
   }
 }
 
