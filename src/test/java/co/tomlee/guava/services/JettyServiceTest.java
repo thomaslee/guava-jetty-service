@@ -14,19 +14,23 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 
-import static co.tomlee.guava.services.JettyServiceHelpers.*;
+import static org.junit.Assert.assertEquals;
 
 public class JettyServiceTest {
-    private JettyService jettyService;
+    private JettyServerService jettyService;
 
     @Before
     public void before() throws Exception {
-        jettyService = new JettyService(port(44244), bindings().bind("/get-servlet", new GetServlet()));
+        jettyService = new JettyServerService(JettyConfigurationBuilder.builder()
+                                            .setStopTimeout(2000)
+                                        .build(44244),
+                                        JettyHandlerBuilder.builder()
+                                            .disableSessions()
+                                            .disableSecurity()
+                                            .bind(new GetServlet()).to("/get-servlet")
+                                        .build());
         jettyService.startAsync().awaitRunning();
     }
 

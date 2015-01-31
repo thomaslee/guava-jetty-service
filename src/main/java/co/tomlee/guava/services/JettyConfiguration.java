@@ -3,7 +3,9 @@ package co.tomlee.guava.services;
 public interface JettyConfiguration {
     int getPort();
     String getHost();
-    long getStopTimeout();
+
+    int getStopTimeout();
+
     int getAcceptorThreadCount();
     int getSelectorThreadCount();
     int getAcceptQueueSize();

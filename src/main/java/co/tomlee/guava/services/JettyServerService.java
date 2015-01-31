@@ -2,28 +2,38 @@ package co.tomlee.guava.services;
 
 import com.google.common.util.concurrent.AbstractIdleService;
 import org.eclipse.jetty.server.*;
+import org.eclipse.jetty.server.handler.StatisticsHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 
 import javax.inject.Inject;
 import java.util.Arrays;
 
-public class JettyService extends AbstractIdleService {
-    private final JettyConfiguration jettyConfiguration;
+public class JettyServerService extends AbstractIdleService {
+    private final JettyConfiguration configuration;
     private final Handler handler;
     private Server server;
 
     @Inject
-    public JettyService(final JettyConfiguration jettyConfiguration,
-                        final Handler handler) {
-        this.jettyConfiguration = jettyConfiguration;
+    public JettyServerService(final JettyConfiguration configuration,
+                              final Handler handler) {
+        this.configuration = configuration;
         this.handler = handler;
     }
 
     @Override
     protected void startUp() throws Exception {
         server = new Server(createThreadPool());
+        Handler handler = this.handler;
+        if (configuration().getStopTimeout() > 0) {
+            final StatisticsHandler statisticsHandler = new StatisticsHandler();
+            statisticsHandler.setHandler(handler);
+            handler = statisticsHandler;
+        }
         server.setHandler(handler);
+        if (configuration.getStopTimeout() > 0) {
+            server.setStopTimeout(configuration.getStopTimeout());
+        }
         server.setConnectors(createServerConnectors(createConnectionFactories()));
         server.start();
     }
@@ -31,11 +41,10 @@ public class JettyService extends AbstractIdleService {
     @Override
     protected void shutDown() throws Exception {
         server.stop();
-        server.join();
     }
 
     protected final JettyConfiguration configuration() {
-        return jettyConfiguration;
+        return configuration;
     }
 
     protected ThreadPool createThreadPool() {
@@ -58,7 +67,6 @@ public class JettyService extends AbstractIdleService {
         if (configuration().getHost() != null) {
             serverConnector.setHost(configuration().getHost());
         }
-        serverConnector.setStopTimeout(configuration().getStopTimeout());
         serverConnector.setConnectionFactories(Arrays.asList(connectionFactories));
         return new ServerConnector[] { serverConnector };
     }

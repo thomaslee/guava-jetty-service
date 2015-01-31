@@ -1,10 +1,10 @@
 package co.tomlee.guava.services;
 
 public class BasicJettyConfiguration implements JettyConfiguration {
-        private String host;
+    private String host;
     private int port = 4040;
 
-    private long stopTimeout = 5 * 1000;
+    private int stopTimeout = 5000;
 
     private int acceptorThreadCount = 4;
     private int selectorThreadCount = 16;
@@ -19,33 +19,53 @@ public class BasicJettyConfiguration implements JettyConfiguration {
     private int responseHeaderSize = 4 * 1024;
 
     private int minWorkerThreadCount = 100;
-    private int maxWorkerThreadcount = 250;
-    private int workerThreadTimeout = 30 * 1000;
+    private int maxWorkerThreadCount = 250;
+    private int workerThreadIdleTimeout = 30 * 1000;
 
-     @Override
-    public int getPort() {
-        return port;
+    public BasicJettyConfiguration() {
+
     }
 
-    public void setPort(final int port) {
-        this.port = port;
+    public BasicJettyConfiguration(final BasicJettyConfiguration jettyConfiguration) {
+        this.host = jettyConfiguration.host;
+        this.port = jettyConfiguration.port;
+        this.stopTimeout = jettyConfiguration.stopTimeout;
+        this.acceptorThreadCount = jettyConfiguration.acceptorThreadCount;
+        this.selectorThreadCount = jettyConfiguration.selectorThreadCount;
+        this.acceptQueueSize = jettyConfiguration.acceptQueueSize;
+        this.idleTimeout = jettyConfiguration.idleTimeout;
+        this.reuseAddress = jettyConfiguration.reuseAddress;
+        this.outputBufferSize = jettyConfiguration.outputBufferSize;
+        this.requestHeaderSize = jettyConfiguration.requestHeaderSize;
+        this.responseHeaderSize = jettyConfiguration.responseHeaderSize;
+        this.minWorkerThreadCount = jettyConfiguration.minWorkerThreadCount;
+        this.maxWorkerThreadCount = jettyConfiguration.maxWorkerThreadCount;
+        this.workerThreadIdleTimeout = jettyConfiguration.workerThreadIdleTimeout;
     }
-
     @Override
     public String getHost() {
         return host;
     }
 
-    public void setHost(final String host) {
+    public void setHost(String host) {
         this.host = host;
     }
 
     @Override
-    public long getStopTimeout() {
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    @Override
+    public int getStopTimeout() {
         return stopTimeout;
     }
 
-    public void setStopTimeout(final long stopTimeout) {
+    public void setStopTimeout(final int stopTimeout) {
         this.stopTimeout = stopTimeout;
     }
 
@@ -54,7 +74,7 @@ public class BasicJettyConfiguration implements JettyConfiguration {
         return acceptorThreadCount;
     }
 
-    public void setAcceptorThreadCount(final int acceptorThreadCount) {
+    public void setAcceptorThreadCount(int acceptorThreadCount) {
         this.acceptorThreadCount = acceptorThreadCount;
     }
 
@@ -63,7 +83,7 @@ public class BasicJettyConfiguration implements JettyConfiguration {
         return selectorThreadCount;
     }
 
-    public void setSelectorThreadCount(final int selectorThreadCount) {
+    public void setSelectorThreadCount(int selectorThreadCount) {
         this.selectorThreadCount = selectorThreadCount;
     }
 
@@ -72,7 +92,7 @@ public class BasicJettyConfiguration implements JettyConfiguration {
         return acceptQueueSize;
     }
 
-    public void setAcceptQueueSize(final int acceptQueueSize) {
+    public void setAcceptQueueSize(int acceptQueueSize) {
         this.acceptQueueSize = acceptQueueSize;
     }
 
@@ -81,16 +101,15 @@ public class BasicJettyConfiguration implements JettyConfiguration {
         return idleTimeout;
     }
 
-    public void setConnectionIdleTimeout(final long idleTimeout) {
+    public void setConnectionIdleTimeout(long idleTimeout) {
         this.idleTimeout = idleTimeout;
     }
 
-     @Override
     public boolean getReuseAddress() {
         return reuseAddress;
     }
 
-    public void setReuseAddress(final boolean reuseAddress) {
+    public void setReuseAddress(boolean reuseAddress) {
         this.reuseAddress = reuseAddress;
     }
 
@@ -99,7 +118,7 @@ public class BasicJettyConfiguration implements JettyConfiguration {
         return outputBufferSize;
     }
 
-    public void setOutputBufferSize(final int outputBufferSize) {
+    public void setOutputBufferSize(int outputBufferSize) {
         this.outputBufferSize = outputBufferSize;
     }
 
@@ -108,7 +127,7 @@ public class BasicJettyConfiguration implements JettyConfiguration {
         return requestHeaderSize;
     }
 
-    public void setRequestHeaderSize(final int requestHeaderSize) {
+    public void setRequestHeaderSize(int requestHeaderSize) {
         this.requestHeaderSize = requestHeaderSize;
     }
 
@@ -117,17 +136,8 @@ public class BasicJettyConfiguration implements JettyConfiguration {
         return responseHeaderSize;
     }
 
-    public void setResponseHeaderSize(final int responseHeaderSize) {
+    public void setResponseHeaderSize(int responseHeaderSize) {
         this.responseHeaderSize = responseHeaderSize;
-    }
-
-    @Override
-    public int getMaxWorkerThreadCount() {
-        return maxWorkerThreadcount;
-    }
-
-    public void setMaxWorkerThreadcount(final int maxWorkerThreadcount) {
-        this.maxWorkerThreadcount = maxWorkerThreadcount;
     }
 
     @Override
@@ -135,16 +145,25 @@ public class BasicJettyConfiguration implements JettyConfiguration {
         return minWorkerThreadCount;
     }
 
-    public void setMinWorkerThreadCount(final int minWorkerThreadCount) {
+    public void setMinWorkerThreadCount(int minWorkerThreadCount) {
         this.minWorkerThreadCount = minWorkerThreadCount;
     }
 
     @Override
-    public int getWorkerThreadIdleTimeout() {
-        return workerThreadTimeout;
+    public int getMaxWorkerThreadCount() {
+        return maxWorkerThreadCount;
     }
 
-    public void setWorkerThreadIdleTimeout(final int workerThreadIdleTimeout) {
-        this.workerThreadTimeout = workerThreadIdleTimeout;
+    public void setMaxWorkerThreadCount(int maxWorkerThreadCount) {
+        this.maxWorkerThreadCount = maxWorkerThreadCount;
+    }
+
+    @Override
+    public int getWorkerThreadIdleTimeout() {
+        return workerThreadIdleTimeout;
+    }
+
+    public void setWorkerThreadIdleTimeout(int workerThreadIdleTimeout) {
+        this.workerThreadIdleTimeout = workerThreadIdleTimeout;
     }
 }
