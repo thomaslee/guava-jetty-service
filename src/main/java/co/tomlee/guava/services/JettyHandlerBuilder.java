@@ -21,22 +21,22 @@ public final class JettyHandlerBuilder {
     }
 
     public JettyHandlerBuilder enableSessions() {
-        flags &= ~ServletContextHandler.NO_SESSIONS;
+        flags |= ServletContextHandler.SESSIONS;
         return this;
     }
 
     public JettyHandlerBuilder disableSessions() {
-        flags |= ServletContextHandler.NO_SESSIONS;
+        flags &= ~ServletContextHandler.SESSIONS;
         return this;
     }
 
     public JettyHandlerBuilder enableSecurity() {
-        flags &= ~ServletContextHandler.NO_SECURITY;
+        flags |= ServletContextHandler.SECURITY;
         return this;
     }
 
     public JettyHandlerBuilder disableSecurity() {
-        flags |= ServletContextHandler.NO_SECURITY;
+        flags &= ~ServletContextHandler.SECURITY;
         return this;
     }
 
